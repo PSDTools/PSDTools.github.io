@@ -117,11 +117,11 @@ function createCourse(num: number): void {
   // creates html elements in the courses class
   document.querySelector(`div#${tempElementId}`)!.innerHTML = html`<div
       oninput="loadGpa();"
-      class="pt-4 pb-4 lg:text-2xl text-lg"
+      class="pb-4 pt-4 text-lg lg:text-2xl"
     >
       <div id="input-con-div">
         <input
-          class="hover:scale-105 w-36 placeholder-white blacktxt"
+          class="blacktxt w-36 placeholder-white hover:scale-105"
           placeholder="Class ${stringNum}:"
           oninput="loadGpa();"
           id="cl${stringNum}txt"
@@ -130,7 +130,7 @@ function createCourse(num: number): void {
         />
         <span class="float-right" id="typeId${stringNum}">
           <form>
-            <select class="hover:scale-105 blacktxt" id="cltyp${stringNum}">
+            <select class="blacktxt hover:scale-105" id="cltyp${stringNum}">
               <option value="1">No-Weight</option>
               <option value="2">Honors</option>
             </select>
@@ -142,12 +142,12 @@ function createCourse(num: number): void {
           min="0"
           max="4"
           value="4"
-          class="hover:scale-105 slider float-right w-1/2"
+          class="slider float-right w-1/2 hover:scale-105"
           id="slide${stringNum}"
           oninput="document.querySelector('#cl${stringNum}').value = document.querySelector('#slide${stringNum}').value;loadGpa();"
         />
         <select
-          class="hover:scale-105 blacktxt float-right appearance-none"
+          class="blacktxt float-right appearance-none hover:scale-105"
           oninput="document.querySelector('#slide${stringNum}').value = document.querySelector('#cl${stringNum}').value;loadGpa();"
           id="cl${stringNum}"
         >

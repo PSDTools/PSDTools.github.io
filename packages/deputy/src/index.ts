@@ -1,17 +1,25 @@
-import type { ESLint } from "eslint";
-
 import cspell from "@cspell/eslint-plugin";
+import type { Config as SvelteKitConfig } from "@sveltejs/kit";
 import {
   sheriff,
   type SheriffSettings,
   supportedFileTypes,
+  type TSESLint,
 } from "eslint-config-sheriff";
-import {
-  defineFlatConfig,
-  type FlatESLintConfig,
-  type Rules,
-} from "eslint-define-config";
 import perfectionist from "eslint-plugin-perfectionist";
+import sveltePlugin from "eslint-plugin-svelte";
+import globals from "globals";
+import ts from "typescript-eslint";
+
+interface Settings {
+  sheriffOverrides: SheriffSettings;
+  svelte: boolean | SvelteSettings;
+}
+
+interface SvelteSettings {
+  enabled: boolean;
+  svelteKitConfig: SvelteKitConfig;
+}
 
 const off = "off";
 const warn = "warn";
@@ -24,7 +32,6 @@ const sheriffOptions = {
   next: false,
   pathsOverrides: {
     playwrightTests: [],
-    tsconfigLocation: ["./tsconfig.json", "./tsconfig.eslint.json"],
   },
   playwright: false,
   react: false,
@@ -33,14 +40,14 @@ const sheriffOptions = {
   vitest: false,
 } satisfies SheriffSettings;
 
-const baseConfig: FlatESLintConfig[] = defineFlatConfig([
-  ...(sheriff(sheriffOptions) as FlatESLintConfig[]),
+const baseConfig = ts.config([
   {
     files: [supportedFileTypes],
     rules: {
       "arrow-body-style": off,
       // This rule doesn't support enforcing implicit return for multiline returns.
       "arrow-return-style/arrow-return-style": off,
+      curly: [error, "multi-line"],
       "func-style": [error, "declaration", { allowArrowFunctions: true }],
       "no-console": warn,
       "no-negated-condition": off,
@@ -57,8 +64,12 @@ const baseConfig: FlatESLintConfig[] = defineFlatConfig([
           "ts-expect-error": { descriptionFormat: "^\\(TS\\d+\\): .+$" },
         },
       ],
-      "@typescript-eslint/explicit-function-return-type": warn,
+      "@typescript-eslint/explicit-function-return-type": [
+        warn,
+        { allowExpressions: true },
+      ],
       "@typescript-eslint/naming-convention": off,
+      "@typescript-eslint/no-confusing-void-expression": warn,
       "@typescript-eslint/no-non-null-assertion": off,
       "@typescript-eslint/prefer-destructuring": warn,
       "@typescript-eslint/prefer-function-type": warn,
@@ -69,6 +80,7 @@ const baseConfig: FlatESLintConfig[] = defineFlatConfig([
       ],
       "@typescript-eslint/return-await": [error, "always"],
       "@typescript-eslint/strict-boolean-expressions": warn,
+      "@typescript-eslint/switch-exhaustiveness-check": error,
 
       "import/no-unresolved": [error, { ignore: ["^virtual:"] }],
       "import/no-useless-path-segments": [error, { noUselessIndex: false }],
@@ -85,10 +97,14 @@ const baseConfig: FlatESLintConfig[] = defineFlatConfig([
     },
   },
   {
-    files: [supportedFileTypes],
-    plugins: {
-      perfectionist: perfectionist as unknown as ESLint.Plugin,
+    files: ["*.js"],
+    rules: {
+      "tsdoc/syntax": off,
     },
+  },
+  {
+    files: [supportedFileTypes],
+    plugins: { perfectionist },
     settings: {
       perfectionist: {
         type: "natural",
@@ -99,8 +115,21 @@ const baseConfig: FlatESLintConfig[] = defineFlatConfig([
     },
 
     rules: {
-      ...(perfectionist.configs["recommended-natural"].rules as Rules),
-      "perfectionist/sort-imports": [error, { partitionByNewLine: false }],
+      ...perfectionist.configs["recommended-natural"].rules,
+      "perfectionist/sort-imports": [
+        error,
+        {
+          groups: [
+            ["side-effect", "side-effect-style"],
+            ["builtin", "external"],
+            "internal",
+            ["parent", "sibling", "index"],
+            "object",
+          ],
+          internalPattern: ["^$lib/.*"],
+          partitionByNewLine: false,
+        },
+      ],
       "perfectionist/sort-modules": off,
       "perfectionist/sort-union-types": [
         error,
@@ -123,6 +152,67 @@ const baseConfig: FlatESLintConfig[] = defineFlatConfig([
   },
 ]);
 
-export function config(): FlatESLintConfig[] {
-  return baseConfig;
+function svelteConfig({
+  project,
+  settings = {},
+}: {
+  project: string | string[];
+  settings?: Partial<SvelteSettings>;
+}): TSESLint.FlatConfig.ConfigArray {
+  const { svelteKitConfig } = settings;
+
+  return ts.config([
+    ...sveltePlugin.configs.recommended,
+    {
+      languageOptions: {
+        globals: {
+          ...globals.browser,
+        },
+      },
+    },
+    {
+      files: ["**/*.svelte"],
+
+      languageOptions: {
+        parserOptions: {
+          extraFileExtensions: [".svelte"],
+          parser: ts.parser,
+          project,
+          svelteConfig: svelteKitConfig,
+        },
+      },
+      rules: {
+        "@typescript-eslint/no-unsafe-call": off,
+        "storybook/default-exports": off,
+
+        "svelte/sort-attributes": warn,
+      },
+    },
+  ]);
+}
+
+export function config({
+  sheriffOverrides,
+  svelte,
+}: Partial<Settings> = {}): TSESLint.FlatConfig.ConfigArray {
+  const combinedSheriffOptions = {
+    ...sheriffOptions,
+    ...sheriffOverrides,
+  };
+
+  const builtConfig = [...sheriff(combinedSheriffOptions), ...baseConfig];
+
+  if (svelte === true) {
+    builtConfig.push(...svelteConfig({ project: "./tsconfig.json" }));
+  } else if (
+    typeof svelte === "object" &&
+    Object.hasOwn(svelte, "enabled") &&
+    svelte.enabled
+  ) {
+    builtConfig.push(
+      ...svelteConfig({ project: "./tsconfig.json", settings: svelte }),
+    );
+  }
+
+  return builtConfig;
 }

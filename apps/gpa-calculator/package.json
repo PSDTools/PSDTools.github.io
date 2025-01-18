@@ -22,9 +22,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite --open",
-    "typecheck:extra": "tsc -p tsconfig.eslint.json",
-    "typecheck:src": "tsc",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "typecheck": "tsc",
+    "lint": "eslint . --max-warnings=0",
     "lint:fix": "pnpm run lint --fix"
   },
   "browserslist": [

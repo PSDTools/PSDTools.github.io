@@ -9,7 +9,6 @@
     "incremental": true,
     "tsBuildInfoFile": "${configDir}/node_modules/.cache/tsbuildinfo.json",
     "strict": true,
-    "moduleDetection": "force",
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -17,10 +16,8 @@
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
-    "noUnusedLocals": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
-    "noUnusedParameters": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -28,12 +25,11 @@
     "noEmit": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": false,
-    "checkJs": false,
+    "allowJs": true,
+    "checkJs": true,
     "experimentalDecorators": false,
-    "useDefineForClassFields": true,
-    "composite": true
+    "useDefineForClassFields": true
   },
-  "include": ["${configDir}/src/**/*.ts"],
+  "include": ["${configDir}/src/**/*.ts", "${configDir}/*.config.ts"],
   "exclude": ["**/node_modules/"]
 }

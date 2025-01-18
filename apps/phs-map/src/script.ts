@@ -26,9 +26,8 @@ import html from "html-template-tag";
 import * as PF from "pathfinding";
 import { fromZodError } from "zod-validation-error";
 
-import type { Coords2D, Level, Lvl, StairList } from "./data/data-types.ts";
-
 import { colorMap } from "./data/colors.ts";
+import type { Coords2D, Level, Lvl, StairList } from "./data/data-types.ts";
 import { level0, level1, level2 } from "./data/levels.ts";
 import { rooms } from "./data/rooms.ts";
 import {
@@ -175,7 +174,7 @@ function createCourse(num: number, profNum: number): void {
   // Creates html elements in the courses class.
   document.querySelector(`#${tempElementId}`)!.innerHTML = html`<div
       id="input-con-div"
-      class=" input-container lightModeInput"
+      class="input-container lightModeInput"
     >
       <p>Class ${numString}</p>
       <input
@@ -210,7 +209,7 @@ function createCourse(num: number, profNum: number): void {
         </button>
       </span>
     </div>
-    <div class=" selectionbox" id="${tempElementIdNext}"></div>`;
+    <div class="selectionbox" id="${tempElementIdNext}"></div>`;
 }
 
 // TODO(lishaduck): Make errors render next to the erroring input.

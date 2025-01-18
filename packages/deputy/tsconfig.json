@@ -1,7 +1,4 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@psdtools/tsconfig/base.json",
-  "compilerOptions": {
-    "isolatedDeclarations": true
-  }
+  "extends": "@psdtools/tsconfig/base.json"
 }

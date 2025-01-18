@@ -80,18 +80,19 @@ web_modules/
 !.yarn/versions
 .pnp.*
 
-# dotenv environment variable files
+# Env
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+.env.*
+!.env.example
+!.env.test
+.envrc
 
 # Vite bundler config
 dev-dist
 build
 types
-vite.config.ts.timestamp-*.mjs
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # parcel-bundler cache (https://parceljs.org/)
 .parcel-cache
@@ -133,6 +134,16 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-
 # Turborepo
 .turbo
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+.svelte-kit
+build
+
+test-results
+*storybook.log
