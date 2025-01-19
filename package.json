@@ -15,7 +15,7 @@
     "typesync": "typesync",
     "typesync:check": "typesync --dry=fail",
     "check-deduped-deps": "pnpm dedupe --check --prefer-offline",
-    "merge-checks": "turbo run typecheck knip lint format:check manypkg typesync:check"
+    "merge-checks": "turbo run typecheck knip lint format:check manypkg typesync:check test"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
