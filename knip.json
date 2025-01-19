@@ -9,7 +9,13 @@
     },
     "apps/petal-notes": {
       "ignore": [".storybook/vitest.setup.ts", "eslint.config.ts"],
-      "ignoreDependencies": ["autoprefixer", "deputy", "vitest-browser-svelte"]
+      "ignoreDependencies": [
+        "@tailwindcss/forms",
+        "@tailwindcss/typography",
+        "deputy",
+        "tailwindcss",
+        "vitest-browser-svelte"
+      ]
     },
     "apps/phs-map": {
       "entry": ["src/{script,sw}.ts"],

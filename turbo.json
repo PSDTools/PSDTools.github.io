@@ -27,14 +27,6 @@
         "tsconfig.json"
       ]
     },
-    "petal-notes#typecheck": {
-      "inputs": [
-        ".svelte-kit/**",
-        "src/**",
-        "*.config.{js,ts}",
-        "tsconfig.json"
-      ]
-    },
     "//#format": {
       "outputs": [
         "node_modules/.cache/prettier/**"

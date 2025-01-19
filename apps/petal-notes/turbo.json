@@ -4,7 +4,8 @@
   "tasks": {
     "build": {
       "outputs": ["node_modules/.vite/**", "build/**"],
-      "inputs": ["src/**", "static/**", "vite.config.ts", "svelte.config.js"]
+      "inputs": ["src/**", "static/**", "vite.config.ts", "svelte.config.js"],
+      "dependsOn": ["prepare"]
     },
     "preview": {
       "cache": false,
@@ -15,7 +16,14 @@
       "cache": false,
       "persistent": true,
       "outputs": ["node_modules/.vite/**", "dev-dist/**"],
-      "inputs": ["src/**", "static/**", "vite.config.ts", "svelte.config.js"]
+      "inputs": ["src/**", "static/**", "vite.config.ts", "svelte.config.js"],
+      "dependsOn": ["prepare"]
+    },
+    "prepare": {
+      "outputs": [
+        ".svelte-kit/{ambient,non-ambient}.d.ts",
+        ".svelte-kit/tsconfig.json"
+      ]
     },
     "lint": {
       "inputs": ["**/*.ts", "**/*.svelte"]
@@ -33,8 +41,7 @@
       "cache": false,
       "persistent": true,
       "inputs": [
-        ".svelte-kit/{ambient,non-ambient}.d.ts",
-        ".svelte-kit/tsconfig.json",
+        ".svelte-kit/**",
         "src/**",
         "*.config.{js,ts}",
         "tsconfig.json"
@@ -42,9 +49,16 @@
       "dependsOn": ["prepare"]
     },
     "test": {
+      "inputs": ["src/**", "vite.config.ts", "svelte.config.js"],
+      "outputs": ["node_modules/.vite/results.json", "coverage/**"],
+      "dependsOn": ["prepare"]
+    },
+    "test:watch": {
       "cache": false,
       "persistent": true,
-      "inputs": ["src/**"]
+      "inputs": ["src/**", "vite.config.ts", "svelte.config.js"],
+      "outputs": ["node_modules/.vite/results.json", "coverage/**"],
+      "dependsOn": ["prepare"]
     },
     "storybook": {
       "cache": false,
