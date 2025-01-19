@@ -12,6 +12,7 @@
     "tauri-apps.tauri-vscode",
     "rust-lang.rust-analyzer",
     "vitest.explorer",
-    "inlang.vs-code-extension"
+    "inlang.vs-code-extension",
+    "bradlc.vscode-tailwindcss"
   ]
 }

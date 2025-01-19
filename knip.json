@@ -8,11 +8,7 @@
       "ignoreDependencies": ["deputy"]
     },
     "apps/petal-notes": {
-      "ignore": [
-        ".storybook/vitest.setup.ts",
-        "eslint.config.ts",
-        "postcss.config.js"
-      ],
+      "ignore": [".storybook/vitest.setup.ts", "eslint.config.ts"],
       "ignoreDependencies": ["autoprefixer", "deputy", "vitest-browser-svelte"]
     },
     "apps/phs-map": {

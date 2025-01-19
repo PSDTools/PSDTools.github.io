@@ -14,7 +14,15 @@
       "front_matter_title": ""
     }
   },
-  "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"],
+  "cSpell.enabledFileTypes": {
+    "*": true,
+    "javascript": false,
+    "typescript": false,
+    "svelte": false
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.sortImports": "never"
