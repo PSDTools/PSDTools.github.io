@@ -18,29 +18,13 @@
       ]
     },
     "typecheck": {
-      "dependsOn": [
-        "typecheck:src",
-        "typecheck:extra"
-      ]
-    },
-    "typecheck:src": {
       "outputs": [
         "node_modules/.cache/tsbuildinfo.json"
       ],
       "inputs": [
         "src/**",
+        "*.config.{js,ts}",
         "tsconfig.json"
-      ]
-    },
-    "typecheck:extra": {
-      "outputs": [
-        "node_modules/.cache/tsbuildinfo.extra.json"
-      ],
-      "inputs": [
-        "eslint.config.ts",
-        "tailwind.config.ts",
-        "vite.config.ts",
-        "tsconfig.extra.json"
       ]
     },
     "//#format": {
@@ -66,7 +50,7 @@
         "**/*.html",
         "**/*.ts",
         "**/*.md",
-        "tsconfig*.json",
+        "tsconfig.json",
         "turbo.json",
         "**/*.js",
         "**/*.css",

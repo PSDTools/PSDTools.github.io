@@ -15,7 +15,6 @@ updates:
     groups:
       lint:
         patterns:
-          - "@eslint-types/*"
           - "@sherifforg/*"
           - "eslint*"
       commitlint:

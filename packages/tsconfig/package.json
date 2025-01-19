@@ -13,7 +13,6 @@
     "email": "88557639+lishaduck@users.noreply.github.com"
   },
   "exports": {
-    "./base.json": "./base.json",
-    "./extra.json": "./extra.json"
+    "./base.json": "./base.json"
   }
 }

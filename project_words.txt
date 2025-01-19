@@ -1,8 +1,13 @@
 Fontaine
+fontawesome
+fortawesome
 lightningcss
 lishaduck
+pathfinding
 Pattonville
 remeda
+storybookjs
 Tahoma
 vanillajs
 Verdana
+Xmark

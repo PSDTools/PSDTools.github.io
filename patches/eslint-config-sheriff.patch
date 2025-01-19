@@ -1,0 +1,76 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index ef3fbfc5baeeb5429e52147ba151d247a34fa749..33bc6e632daae308af17be84d513b441f3bc44d5 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -96,7 +96,7 @@ export interface SheriffSettings extends Partial<SheriffConfigurablePlugins> {
+ 		/**
+ 		 * This setting overrides the default Sheriff filepaths for Playwright linting. It accepts an array of filepaths, dictaced by minimatch syntax. Sheriff will apply Playwright rules only on these files.
+ 		 */
+-		playwrightTests: string[];
++		playwrightTests?: string[];
+ 	};
+ 	/**
+ 	 * This setting apply some ignore patterns to the whole config.
+diff --git a/dist/index.js b/dist/index.js
+index 24faa50e91c7370ab21892d1b7a49c13e8827742..ea53ed02cf5a6be9a8f9a3de8ddc9098b909402f 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -11,7 +11,8 @@ var sheriffStartingOptions = {
+ };
+ var allJsExtensions = "js,mjs,cjs,ts,mts,cts";
+ var allJsxExtensions = "jsx,tsx,mtsx,mjsx";
+-var supportedFileTypes = `**/*{${allJsExtensions},${allJsxExtensions},astro}`;
++var allSupportedExtensions = `${allJsExtensions},${allJsxExtensions},astro,svelte`
++var supportedFileTypes = `**/*.{${allSupportedExtensions}}`;
+ var messages = {
+   NO_ACCESS_MODIFIER: "Avoid access modifiers. In Javascript modules there is no need to limit developer access to properties."
+ };
+@@ -155,7 +156,6 @@ import tsdoc from "eslint-plugin-tsdoc";
+ import unicorn from "eslint-plugin-unicorn";
+ import globals from "globals";
+ import tseslint3 from "typescript-eslint";
+-import { fixupPluginRules } from "@eslint/compat";
+ import eslintJs from "@eslint/js";
+ import preferEarlyReturn from "@regru/eslint-plugin-prefer-early-return";
+ import stylistic from "@stylistic/eslint-plugin";
+@@ -680,10 +680,10 @@ var getBaseConfig = (userConfigChoices) => {
+     },
+     {
+       files: [
+-        "**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)",
+-        "**/*.story.@(ts|tsx|js|jsx|mjs|cjs)"
++        "**/*.stories.@(ts|tsx|js|jsx|mjs|cjs|svelte)",
++        "**/*.story.@(ts|tsx|js|jsx|mjs|cjs|svelte)"
+       ],
+-      plugins: { storybook: fixupPluginRules(storybook) },
++      plugins: { storybook },
+       rules: {
+         ...storybook.configs["flat/recommended"][1].rules,
+         ...storybook.configs["flat/csf"][1].rules,
+@@ -691,7 +691,8 @@ var getBaseConfig = (userConfigChoices) => {
+       }
+     },
+     {
+-      files: ["**/.storybook/main.@(js|cjs|mjs|ts)"],
++      files: ["**/.storybook/main.@(js|cjs|mjs|ts|svelte)"],
++      plugins: { storybook },
+       rules: { ...storybook.configs["flat/recommended"][2].rules }
+     },
+     {
+@@ -710,7 +711,7 @@ var getBaseConfig = (userConfigChoices) => {
+       rules: { "fsecond/prefer-destructured-optionals": 2 }
+     },
+     {
+-      files: ["**/*.config.*"],
++      files: [`**/*.config.{${allSupportedExtensions}}`, `.storybook/*.{${allJsExtensions}}`],
+       rules: {
+         "import/no-default-export": 0,
+         "import/no-anonymous-default-export": 0,
+@@ -948,7 +949,6 @@ var vitestHandPickedRules = {
+   "vitest/no-conditional-expect": 2,
+   "vitest/no-conditional-in-test": 2,
+   "vitest/no-disabled-tests": 2,
+-  "vitest/no-done-callback": 2,
+   "vitest/no-duplicate-hooks": 2,
+   "vitest/no-identical-title": 2,
+   "vitest/no-focused-tests": 2,

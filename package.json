@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "test": "turbo run test",
     "prepare": "husky",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
@@ -14,15 +15,17 @@
     "typesync": "typesync",
     "typesync:check": "typesync --dry=fail",
     "check-deduped-deps": "pnpm dedupe --check --prefer-offline",
-    "merge-checks": "turbo run typecheck knip lint format:check manypkg typesync:check"
+    "merge-checks": "turbo run typecheck knip lint format:check manypkg typesync:check test"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@manypkg/cli": "^0.23.0",
     "husky": "^9.1.7",
-    "knip": "^5.42.1",
+    "knip": "^5.42.2",
     "prettier": "3.4.2",
+    "prettier-plugin-svelte": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.10",
     "turbo": "^2.3.3",
     "typesync": "^0.14.0"
   },
@@ -52,10 +55,15 @@
       "sharp"
     ],
     "ignoredBuiltDependencies": [
-      "eslint-config-sheriff"
+      "eslint-config-sheriff",
+      "mws",
+      "svelte-preprocess"
     ],
     "overrides": {
       "eslint-plugin-unicorn": "^56.0.1"
+    },
+    "patchedDependencies": {
+      "eslint-config-sheriff": "patches/eslint-config-sheriff.patch"
     }
   },
   "manypkg": {

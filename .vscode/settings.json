@@ -2,9 +2,11 @@
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [
     "apps/gpa-calculator",
+    "apps/petal-notes",
     "apps/phs-map",
     "packages/deputy"
   ],
+  "eslint.validate": ["javascript", "typescript", "svelte"],
   "files.trimTrailingWhitespace": true,
   "markdownlint.config": {
     "MD028": false,
@@ -12,10 +14,19 @@
       "front_matter_title": ""
     }
   },
-  "cSpell.words": ["fontawesome", "fortawesome", "pathfinding", "Xmark"],
+  "cSpell.enabledFileTypes": {
+    "*": true,
+    "javascript": false,
+    "typescript": false,
+    "svelte": false
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.sortImports": "never"
   },
-  "commitlint.config.file": "commitlint.config.js"
+  "commitlint.config.file": "commitlint.config.js",
+  "svelte.enable-ts-plugin": true
 }

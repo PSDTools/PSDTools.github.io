@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import browserslist from "browserslist";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { FontaineTransform } from "fontaine";
@@ -24,9 +25,10 @@ export default defineConfig({
     lightningcss: {
       targets: browserslistToTargets(browsersList),
     },
-    transformer: "lightningcss",
+    transformer: "postcss", // LightningCSS errors with "Unexpected token CloseParenthesis".
   },
   plugins: [
+    tailwindcss(),
     FontaineTransform.vite({
       fallbacks: ["Verdana", "Geneva", "Tahoma", "sans-serif"],
       resolvePath: (path) => new URL(`.${path}`, import.meta.url),

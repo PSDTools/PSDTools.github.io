@@ -58,7 +58,6 @@ jobs:
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
-          # fetch registry metadata
       - name: 🎾 Fetch package metadata
         run: pnpm fetch
       - name: 📦 Install dependencies
