@@ -35,6 +35,7 @@
         "*.config.{js,ts}",
         "tsconfig.json"
       ],
+      "outputs": [],
       "dependsOn": ["prepare"]
     },
     "typecheck:watch": {

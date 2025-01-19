@@ -56,7 +56,7 @@ export default defineConfig({
       {
         extends: true,
         test: {
-          include: ["src/**/*.{test,spec}.ts"],
+          include: ["tests/**/*.test.ts"],
           name: "petal-notes",
 
           typecheck: {
